@@ -244,8 +244,10 @@ public class KDCircularProgress: UIView, CAAnimationDelegate {
     }
 
     nonisolated public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        animationCompletionBlock?(flag)
-        animationCompletionBlock = nil
+        Task { @MainActor in
+            animationCompletionBlock?(flag)
+            animationCompletionBlock = nil
+        }
     }
 
     public override func didMoveToWindow() {
